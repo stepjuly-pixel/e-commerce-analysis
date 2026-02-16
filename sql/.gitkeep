@@ -17,6 +17,7 @@ join `DA.session_params` sp
 on sp.ga_session_id = s.ga_session_id
 group by s.date, sp.country, aa.send_interval, aa.is_verified, aa.is_unsubscribed
 ),
+
 --CTE for collection metrics for emails
 email_dataset as
 (
@@ -45,6 +46,7 @@ join `data-analytics-mate.DA.session_params` sp
  	on aa.id = es.id_account
  	group by date, sp.country, aa.send_interval, aa.is_verified, aa.is_unsubscribed
 ),
+
 --СTE for merging data from previous datasets
 union_dataset as
 (
@@ -88,6 +90,7 @@ sum(visit_msg) as visit_msg
 from union_dataset
 group by date, country, send_interval, is_verified, is_unsubscribed
 )
+
 -- Final query with subqueries
 select *
 from
