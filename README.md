@@ -20,7 +20,7 @@ The dataset was built using SQL with predefined structural requirements and visu
 
 ## Tools
 
-- SQL (CTEs, window functions, aggregations)
+- [SQL](sql/sql.sql) (CTEs, window functions, aggregations)
 
 - BigQuery
 
