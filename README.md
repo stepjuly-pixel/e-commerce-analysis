@@ -37,14 +37,15 @@ The dataset was built using SQL with predefined structural requirements and visu
 - Country ranking by total accounts and sent emails shows similar leading markets.
 
 ## Project Structure
-
+```
 e-commerce-analysis/
 
-sql/sql.sql — final analytical query
+  sql/sql.sql — final analytical query
 
-images/image.png — dashboard screenshots
+  images/image.png — dashboard screenshots
 
-README.md — project description
+  README.md — project description
+```
 
 ## Dashboard Preview
 
