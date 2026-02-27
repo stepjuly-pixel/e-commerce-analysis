@@ -38,9 +38,11 @@ The dataset was built using SQL with predefined structural requirements and visu
 
 ## Project Structure
 
-sql/ — final analytical query
+e-commerce-analysis/
 
-images/ — dashboard screenshots
+sql/sql.sql — final analytical query
+
+images/image.png — dashboard screenshots
 
 README.md — project description
 
