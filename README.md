@@ -1,53 +1,105 @@
-# E-Commerce Analysis
+# E-Commerce Account & Email Activity Analysis
 
-## About the Project
+## Project Overview
 
-Analysis of account creation and email activity to compare country performance and observe sending dynamics over time.
+This project analyzes account creation and email sending activity across countries using SQL and Looker Studio.
+The dataset was built from multiple BigQuery tables using CTEs, window functions, and aggregations to create a unified reporting dataset with country-level rankings.
 
-The dataset was built using SQL with predefined structural requirements and visualized in Looker Studio.
+The objective was to:
 
-## Objective
+- Aggregate account creation and email metrics by country and date
 
-- Aggregate account creation metrics
+- Rank countries by total accounts and email volume
 
-- Calculate total sent emails by country
+- Visualize country-level performance and email sending dynamics over time
 
-- Rank countries by account volume and email activity
+## Tools & Technologies
 
-- Visualize country-level performance
-
-- Show time-series dynamics for sent emails
-
-## Tools
-
-- [SQL](sql/sql.sql) (CTEs, window functions, aggregations)
-
-- BigQuery
+- SQL (BigQuery) — CTEs, window functions (`DENSE_RANK`, `SUM OVER`), `UNION ALL`
 
 - Looker Studio
 
-## Results
+## Database Structure
 
-- The United States generates the highest volume of sent emails.
+The query joins the following tables:
 
-- Top 3–5 countries account for the majority of total email traffic.
+- `account` – account details (send interval, verification, unsubscribe status)
 
-- Email activity increased toward the end of 2020 and declined after February 2021.
+- `account_session` – links accounts to sessions
 
-- Country ranking by total accounts and sent emails shows similar leading markets.
+- `session` – session dates
+
+- `session_params` – session-level attributes (country)
+
+- `email_sent` – email send events
+
+- `email_open` – email open events
+
+- `email_visit` – email click events
+
+## Data Preparation (SQL Layer)
+
+[View SQL Query](sql/sql.sql)
+
+The reporting dataset was created through a multi-step SQL pipeline:
+
+- **account_dataset CTE** — aggregates account creation metrics by date, country, and account attributes
+
+- **email_dataset CTE** — aggregates email send, open, and click events with the same dimensions
+
+- **union_dataset CTE** — merges both datasets via `UNION ALL`
+
+- **union_final CTE** — performs final aggregation
+
+- **Final query** — calculates country totals using `SUM() OVER(PARTITION BY country)` and ranks countries using `DENSE_RANK()`, filtered to top 10 by accounts or sent emails
+
+## Dashboard
+
+<img src="images/dashboard_preview.png" width="800" />
+
+🔗 [Interactive dashboard on Looker Studio](https://lookerstudio.google.com/s/iWIdmRQYbCE)
+
+The Looker Studio dashboard includes:
+
+- Total account count KPI (21,327)
+
+- Sent email distribution by country (pie chart)
+
+- Sent email dynamics over time by country (line chart)
+
+- Country ranking by total accounts
+
+- Country ranking by total sent emails
+
+## Key Insights
+
+- **United States** dominates email activity with **70.2%** of all sent emails
+
+- **India** (11.3%) and **Canada** (7.8%) follow as the second and third largest markets
+
+- Top 5 countries by accounts: United States, India, Canada, United Kingdom, France
+
+- Top 5 countries by sent emails: United States, India, Canada, United Kingdom, China
+
+- Email sending peaked in **late November – early December 2020** and declined steadily through January 2021, reaching near-zero by mid-February
+
+- Country rankings by accounts and sent emails are largely aligned, with minor differences (France vs China at position 5)
+
+## How to Run
+
+1. Clone this repository
+
+2. Open [`sql/sql.sql`](sql/sql.sql) to review the BigQuery query
+
+3. Explore the [interactive dashboard on Looker Studio](https://lookerstudio.google.com/s/iWIdmRQYbCE) or view the screenshot in [`images/`](images/)
 
 ## Project Structure
+
 ```
-e-commerce-analysis/
-
-  sql/sql.sql — final analytical query
-
-  images/image.png — dashboard screenshots
-
-  README.md — project description
+e-commerce-account-email-analysis/
+├── sql/
+│   └── sql.sql
+├── images/
+│   └── dashboard_preview.png
+└── README.md
 ```
-
-## Dashboard Preview
-
-<img width="1175" height="825" alt="image" src="https://github.com/user-attachments/assets/aa80b939-9291-45ea-a7f4-f7cf499b2ca0" />
-
